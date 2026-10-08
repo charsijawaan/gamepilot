@@ -6,7 +6,21 @@ GamePilot aims to bring gaming settings and system monitoring into one native de
 
 ## Current milestone
 
-A native Windows **Hello, world!** window, built with **C++23 and Win32**. The first milestone establishes the toolchain, resource ownership, error handling, DPI awareness, formatting, build presets, and CI. Gaming settings and monitoring are not implemented in this repository yet.
+A native dark control panel and system tray utility, built with **C++23 and Win32**. Gaming Mode currently changes one setting: closing the laptop lid does nothing, on both battery and plugged-in power.
+
+## Gaming Mode
+
+- **Turn on gaming mode** saves the current plan's original lid actions, applies Do nothing to both power sources, and verifies the result.
+- **Turn off gaming mode** restores the exact original values. An original Do nothing setting stays Do nothing.
+- **Close (X)** hides the window; the tray keeps running. Click the tray icon or launch the executable again to reopen it.
+- **Exit and restore** restores settings and quits. If restoration fails, the app stays open so you can retry.
+- The window, taskbar icon, and tray show **ON** (green), **OFF** (gray), or **NEEDS ATTENTION** (amber). Right-click the tray icon for controls. Windows may initially place the icon in the hidden-icons area.
+
+If the active power plan or lid settings change externally, GamePilot shows Needs attention. Restore, then enable again to apply the mode to the new plan. GamePilot does not continuously overwrite other apps' changes.
+
+Originals are saved atomically under `%LOCALAPPDATA%\gamepilot\lid-recovery.txt` before modifying Windows. Normal exit and sign-out/shutdown attempt restoration. After a forced stop or crash, changes remain until the next launch, which restores the saved values and starts with Gaming Mode off. Invalid recovery files are preserved and reported rather than overwritten.
+
+This controls **lid close only**. Idle sleep, explicit Sleep/Shut down, and critical-battery actions still apply. Windows policy can deny power-setting changes; failures appear in the status panel. Don't run the old GamingMode tray utility alongside GamePilot.
 
 ## Quick start
 
@@ -35,12 +49,8 @@ See [development setup](docs/development.md) for direct commands, tool versions,
 
 ## Planned features
 
-- Turn Gaming Mode on and off from the dashboard or system tray.
-- Keep the laptop running when its lid is closed, both on battery and plugged in.
-- Restore previous settings when Gaming Mode is disabled.
-- Show a clear indicator when Gaming Mode is active, inactive, or needs attention.
 - Monitor RAM and CPU usage while the dashboard is open.
-- Add configurable gaming profiles and settings over time.
+- Explore frame-rate limits, GPU controls, and configurable profiles as separate features.
 
 ## Design priorities
 

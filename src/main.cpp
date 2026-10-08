@@ -22,10 +22,18 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR arguments, int show_com
         const auto message =
             L"Could not start GamePilot. Windows error: " + std::to_wstring(result.error().value());
         MessageBoxW(nullptr, message.c_str(), L"GamePilot", MB_OK | MB_ICONERROR);
-    } catch (const std::exception&) {
+    } catch (const std::exception& error) {
         if (!smoke_test) {
-            MessageBoxW(nullptr, L"GamePilot encountered an unexpected error.", L"GamePilot",
-                        MB_OK | MB_ICONERROR);
+            const auto detail = std::string_view{error.what()};
+            const auto length = MultiByteToWideChar(CP_UTF8, 0, detail.data(),
+                                                    static_cast<int>(detail.size()), nullptr, 0);
+            std::wstring message(static_cast<std::size_t>(length), L'\0');
+            MultiByteToWideChar(CP_UTF8, 0, detail.data(), static_cast<int>(detail.size()),
+                                message.data(), length);
+            message =
+                L"Could not start GamePilot.\n\n" + message +
+                L"\n\nAny saved recovery remains in %LOCALAPPDATA%\\gamepilot\\lid-recovery.txt.";
+            MessageBoxW(nullptr, message.c_str(), L"GamePilot", MB_OK | MB_ICONERROR);
         }
     }
     return 1;

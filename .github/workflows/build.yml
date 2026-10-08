@@ -24,9 +24,10 @@ jobs:
           . ./scripts/enter-dev-shell.ps1
           cmake --build --preset debug --target format-check
           if ($LASTEXITCODE -ne 0) { throw 'Formatting check failed.' }
-          clang-tidy -p build/debug src/main.cpp src/win32/application.cpp
+          $sources = Get-ChildItem src,tests -Recurse -Filter *.cpp | ForEach-Object FullName
+          clang-tidy -p build/debug $sources
           if ($LASTEXITCODE -ne 0) { throw 'Static analysis failed.' }
           ctest --preset debug
-          if ($LASTEXITCODE -ne 0) { throw 'Debug smoke test failed.' }
+          if ($LASTEXITCODE -ne 0) { throw 'Debug tests failed.' }
           ctest --preset release
-          if ($LASTEXITCODE -ne 0) { throw 'Release smoke test failed.' }
+          if ($LASTEXITCODE -ne 0) { throw 'Release tests failed.' }
