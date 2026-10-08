@@ -1,0 +1,27 @@
+#include <winuser.h>
+
+1 RT_MANIFEST "gamepilot.manifest"
+
+1 VERSIONINFO
+FILEVERSION 0,1,0,0
+PRODUCTVERSION 0,1,0,0
+FILEOS 0x00040004L
+FILETYPE 0x00000001L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription", "GamePilot"
+            VALUE "FileVersion", "0.1.0"
+            VALUE "InternalName", "gamepilot"
+            VALUE "OriginalFilename", "gamepilot.exe"
+            VALUE "ProductName", "GamePilot"
+            VALUE "ProductVersion", "0.1.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1200
+    END
+END

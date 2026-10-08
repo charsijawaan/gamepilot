@@ -1,0 +1,32 @@
+name: Windows build
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install pinned tools
+        shell: pwsh
+        run: ./scripts/setup.ps1
+      - name: Build and verify
+        shell: pwsh
+        run: |
+          ./scripts/build.ps1 -Preset debug
+          ./scripts/build.ps1 -Preset release
+          . ./scripts/enter-dev-shell.ps1
+          cmake --build --preset debug --target format-check
+          if ($LASTEXITCODE -ne 0) { throw 'Formatting check failed.' }
+          clang-tidy -p build/debug src/main.cpp src/win32/application.cpp
+          if ($LASTEXITCODE -ne 0) { throw 'Static analysis failed.' }
+          ctest --preset debug
+          if ($LASTEXITCODE -ne 0) { throw 'Debug smoke test failed.' }
+          ctest --preset release
+          if ($LASTEXITCODE -ne 0) { throw 'Release smoke test failed.' }

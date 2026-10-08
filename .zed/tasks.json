@@ -1,0 +1,20 @@
+[
+  {
+    "label": "Build Debug",
+    "command": "powershell.exe",
+    "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "./scripts/build.ps1", "-Preset", "debug"],
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "Build Release",
+    "command": "powershell.exe",
+    "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "./scripts/build.ps1", "-Preset", "release"],
+    "cwd": "$ZED_WORKTREE_ROOT"
+  },
+  {
+    "label": "Build and Run",
+    "command": "powershell.exe",
+    "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "./scripts/build.ps1", "-Preset", "debug", "-Run"],
+    "cwd": "$ZED_WORKTREE_ROOT"
+  }
+]

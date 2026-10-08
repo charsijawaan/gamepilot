@@ -1,0 +1,8 @@
+/build/
+/work/
+/CMakeUserPresets.json
+/.cache/
+/.vs/
+/gamepilot.code-workspace
+/.zed/settings.json
+*.user

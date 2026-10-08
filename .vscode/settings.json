@@ -1,0 +1,8 @@
+{
+  "editor.formatOnSave": true,
+  "[cpp]": { "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd" },
+  "clangd.arguments": ["--background-index", "--clang-tidy", "--header-insertion=never"],
+  "files.associations": { "*.rc": "cpp" },
+  "files.exclude": { "build": true },
+  "search.exclude": { "build/**": true }
+}

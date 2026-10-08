@@ -1,0 +1,7 @@
+Checks: >-
+  -*,
+  clang-analyzer-core.*,clang-analyzer-cplusplus.*,clang-analyzer-deadcode.*,
+  bugprone-use-after-move,bugprone-dangling-handle,
+  performance-for-range-copy,modernize-use-nullptr
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*[/\\]src[/\\].*'
